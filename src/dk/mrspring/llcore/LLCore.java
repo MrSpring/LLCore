@@ -35,6 +35,8 @@ public class LLCore
         loadIcon(new ResourceLocation("core", "arrow_down"));
         loadIcon(new ResourceLocation("core", "arrow_left"));
         loadIcon(new ResourceLocation("core", "arrow_right"));
+        loadIcon(new ResourceLocation("core", "check_mark"));
+        loadIcon(new ResourceLocation("core", "cross"));
     }
 
     public Icon getIcon(String iconName)
@@ -57,6 +59,8 @@ public class LLCore
         } catch (Exception e)
         {
             System.err.println("Unable to load icon '" + iconLocation + "' for '" + name + "'");
+            if (!loadedIcons.containsKey(iconLocation))
+                loadedIcons.put(iconLocation.getResourcePath(), new Icon(1, 1, new Quad(0, 0, 1, 1)));
             e.printStackTrace();
         }
     }
