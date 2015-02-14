@@ -20,6 +20,33 @@ public class DrawingHelper
         this.zIndex = zIndex;
     }
 
+    public DrawingHelper drawButtonThingy(Quad quad, float alphaProgress, boolean enabled, Color startColor, float startAlpha, Color endColor, float endAlpha)
+    {
+        float x = quad.getVector(0).getX(), y = quad.getVector(0).getY(), w = quad.getWidth(), h = quad.getHeight();
+
+        this.drawShape(new Quad(x + 1, y, w - 2, h).setColor(Color.BLACK).setAlpha(0.25F));
+        this.drawShape(new Quad(x, quad.getVector(0).getY() + 1, 1, quad.getHeight() - 2).setColor(Color.BLACK).setAlpha(0.25F));
+        this.drawShape(new Quad(x + w - 1, quad.getVector(0).getY() + 1, 1, quad.getHeight() - 2).setColor(Color.BLACK).setAlpha(0.25F));
+        this.drawShape(new Quad(x + 1, y + 1, w - 2, 1).setColor(Color.WHITE));
+        this.drawShape(new Quad(x + 1, y + 2, 1, h - 4).setColor(Color.WHITE));
+        this.drawShape(new Quad(x + w - 2, y + 2, 1, h - 3).setColor(Color.LT_GREY));
+        this.drawShape(new Quad(x + 1, y + h - 2, w - 3, 1).setColor(Color.LT_GREY));
+
+        if (enabled && alphaProgress > 0)
+            this.drawShape(new Quad(
+                    new Vector(x + 2, y + 2, startColor, alphaProgress * startAlpha),
+                    new Vector(x + w - 2, y + 2, startColor, alphaProgress * startAlpha),
+                    new Vector(x + w - 2, y + h - 2, endColor, alphaProgress * endAlpha),
+                    new Vector(x + 2, y + h - 2, endColor, alphaProgress * endAlpha)));
+
+        return this;
+    }
+
+    public DrawingHelper drawButtonThingy(Quad quad, float alphaProgress, boolean enabled)
+    {
+        return this.drawButtonThingy(quad, alphaProgress, enabled, Color.CYAN, 0.25F, Color.BLUE, 0.5F);
+    }
+
     public DrawingHelper drawShape(Shape shape)
     {
         glEnable(GL_BLEND);
