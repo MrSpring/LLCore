@@ -19,7 +19,7 @@ public class Quad extends Shape
 
     public Quad(float x, float y, float width, float height)
     {
-        this(new Vector(x, y), new Vector(x + width, y), new Vector(x + width, y + height), new Vector(x, y + height));
+        this(new Vector(x, y, 0, 0), new Vector(x + width, y, 512, 0), new Vector(x + width, y + height, 512, 512), new Vector(x, y + height, 0, 512));
     }
 
     public Quad(Vector v1, Vector v2)

@@ -14,6 +14,13 @@ import static org.lwjgl.opengl.GL11.*;
 public class DrawingHelper
 {
     double zIndex = 0;
+    boolean allowTextures;
+
+    public DrawingHelper setAllowTextures(boolean allowTextures)
+    {
+        this.allowTextures = allowTextures;
+        return this;
+    }
 
     public void setZIndex(double zIndex)
     {
@@ -70,9 +77,43 @@ public class DrawingHelper
 
 //        glColor4f(1, 1, 1, 1);
         glShadeModel(GL_FLAT);
-
-        glEnable(GL_CULL_FACE);
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_CULL_FACE);
+        glDisable(GL_BLEND);
+
+        return this;
+    }
+
+    public DrawingHelper drawTexturedShape(Shape shape)
+    {
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        glAlphaFunc(GL_GREATER, 0.01F);
+        glEnable(GL_TEXTURE_2D);
+        glColor4f(1.0F, 1.0F, 1.0F, 1F);
+
+        float texMapScale = 0.001953125F;
+
+        Tessellator tessellator = Tessellator.getInstance();
+
+        tessellator.getWorldRenderer().startDrawingQuads();
+        Vector[] vectors = new Vector[]{
+                shape.getVector(3),
+                shape.getVector(2),
+                shape.getVector(1),
+                shape.getVector(0)
+        };
+        for (Vector vector : vectors)
+        {
+            tessellator.getWorldRenderer().addVertexWithUV(vector.getX(), vector.getY(), zIndex, vector.getU() * texMapScale, vector.getV() * texMapScale);
+        }
+//        tessellator.getWorldRenderer().addVertexWithUV(x, y + height, 0, u * texMapScale, v2 * texMapScale);
+//        tessellator.getWorldRenderer().addVertexWithUV(x + width, y + height, 0, u2 * texMapScale, v2 * texMapScale);
+//        tessellator.getWorldRenderer().addVertexWithUV(x + width, y, 0, u2 * texMapScale, v * texMapScale);
+//        tessellator.getWorldRenderer().addVertexWithUV(x, y, 0, u * texMapScale, v * texMapScale);
+
+        tessellator.draw();
+
         glDisable(GL_BLEND);
 
         return this;
