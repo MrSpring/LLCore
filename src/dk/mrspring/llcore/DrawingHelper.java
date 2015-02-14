@@ -54,6 +54,20 @@ public class DrawingHelper
         return this.drawButtonThingy(quad, alphaProgress, enabled, Color.CYAN, 0.25F, Color.BLUE, 0.5F);
     }
 
+    public DrawingHelper drawVerticalLine(Vector start, float length, float width, boolean shadow)
+    {
+        if (shadow)
+            this.drawShape(new Quad(start.getX() + (width / 2) + 1, start.getY() + 1, width, length).setColor(Color.DK_GREY));
+        return this.drawShape(new Quad(start.getX() + (width / 2), start.getY(), width, length));
+    }
+
+    public DrawingHelper drawHorizontalLine(Vector start, float length, float width, boolean shadow)
+    {
+        if (shadow)
+            this.drawShape(new Quad(start.getX() + 1, start.getY() - (width / 2) + 1, length, width).setColor(Color.DK_GREY));
+        return this.drawShape(new Quad(start.getX(), start.getY() - (width / 2), length, width));
+    }
+
     public DrawingHelper drawShape(Shape shape)
     {
         glEnable(GL_BLEND);
@@ -107,10 +121,6 @@ public class DrawingHelper
         {
             tessellator.getWorldRenderer().addVertexWithUV(vector.getX(), vector.getY(), zIndex, vector.getU() * texMapScale, vector.getV() * texMapScale);
         }
-//        tessellator.getWorldRenderer().addVertexWithUV(x, y + height, 0, u * texMapScale, v2 * texMapScale);
-//        tessellator.getWorldRenderer().addVertexWithUV(x + width, y + height, 0, u2 * texMapScale, v2 * texMapScale);
-//        tessellator.getWorldRenderer().addVertexWithUV(x + width, y, 0, u2 * texMapScale, v * texMapScale);
-//        tessellator.getWorldRenderer().addVertexWithUV(x, y, 0, u * texMapScale, v * texMapScale);
 
         tessellator.draw();
 
