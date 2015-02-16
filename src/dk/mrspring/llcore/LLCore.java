@@ -3,7 +3,6 @@ package dk.mrspring.llcore;
 import dk.mrspring.llcore.api.IClipboardHelper;
 import dk.mrspring.llcore.api.IFileLoader;
 import dk.mrspring.llcore.api.IJsonHandler;
-import dk.mrspring.llcore.litemod.LiteModLLCore;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 
@@ -38,7 +37,6 @@ public class LLCore
         loadIcon(new ResourceLocation("core", "arrow_right"));
         loadIcon(new ResourceLocation("core", "check_mark"));
         loadIcon(new ResourceLocation("core", "cross"));
-        LiteModLLCore.registerCore(name, this);
     }
 
     public Icon getIcon(String iconName)
