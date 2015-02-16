@@ -1,6 +1,7 @@
 package dk.mrspring.llcore.api;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public interface IFileLoader
 {
-    public File[] getFilesInFolder(File folder, boolean addSubFolder);
+    public File[] getFilesInFolder(File folder, boolean addSubFolder, FileFilter filter);
 
-    public void addFilesToList(File folder, List<File> fileList, boolean addSubFolder);
+    public void addFilesToList(File folder, List<File> fileList, boolean addSubFolder, FileFilter filter);
 
     public String getContentsFromFile(File file) throws IOException;
 

@@ -1,9 +1,9 @@
 package dk.mrspring.llcore;
 
-import dk.mrspring.fileexplorer.helper.ClipboardHelper;
 import dk.mrspring.llcore.api.IClipboardHelper;
 import dk.mrspring.llcore.api.IFileLoader;
 import dk.mrspring.llcore.api.IJsonHandler;
+import dk.mrspring.llcore.litemod.LiteModLLCore;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 
@@ -23,6 +23,7 @@ public class LLCore
     IClipboardHelper clipboardHelper;
     IFileLoader fileLoader;
     IJsonHandler jsonHandler;
+    boolean usesDefaultDrawingHelper = true;
 
     public LLCore(String name)
     {
@@ -37,6 +38,7 @@ public class LLCore
         loadIcon(new ResourceLocation("core", "arrow_right"));
         loadIcon(new ResourceLocation("core", "check_mark"));
         loadIcon(new ResourceLocation("core", "cross"));
+        LiteModLLCore.registerCore(name, this);
     }
 
     public Icon getIcon(String iconName)
@@ -49,20 +51,30 @@ public class LLCore
     public void loadIcon(ResourceLocation iconLocation)
     {
         File fileFromLocation = new File("assets/" + iconLocation.getResourceDomain() + "/icons/" + iconLocation.getResourcePath() + ".icon");
+        this.loadIcon(fileFromLocation, iconLocation.getResourcePath());
+    }
+
+    public void loadIcon(File file, String iconName)
+    {
         try
         {
-            String iconCode = FileUtils.readFileToString(fileFromLocation);//fileLoader.getContentsFromFile(fileFromLocation);
-            Icon icon = jsonHandler.loadFromJson(iconCode, Icon.class);
-            if (icon == null)
-                icon = new Icon(1, 1, new Quad(0, 0, 1, 1));
-            loadedIcons.put(iconLocation.getResourcePath(), icon);
+            String iconCode = FileUtils.readFileToString(file);
+            this.loadIcon(iconCode, iconName);
         } catch (Exception e)
         {
-            System.err.println("Unable to load icon '" + iconLocation + "' for '" + name + "'");
-            if (!loadedIcons.containsKey(iconLocation))
-                loadedIcons.put(iconLocation.getResourcePath(), new Icon(1, 1, new Quad(0, 0, 1, 1)));
+            System.err.println("Unable to load icon '" + iconName + "' for '" + name + "'");
+            if (!loadedIcons.containsKey(iconName))
+                loadedIcons.put(iconName, new Icon(1, 1, new Quad(0, 0, 1, 1)));
             e.printStackTrace();
         }
+    }
+
+    public void loadIcon(String json, String iconName)
+    {
+        Icon icon = jsonHandler.loadFromJson(json, Icon.class);
+        if (icon == null)
+            icon = new Icon(1, 1, new Quad(0, 0, 1, 1));
+        loadedIcons.put(iconName, icon);
     }
 
     public DrawingHelper getDrawingHelper()
@@ -88,6 +100,18 @@ public class LLCore
     public LLCore setDrawingHelper(DrawingHelper drawingHelper)
     {
         this.drawingHelper = drawingHelper;
+        this.setUsesDefaultDrawingHelper(drawingHelper.getClass() == DrawingHelper.class);
+        return this;
+    }
+
+    public boolean usesDefaultDrawingHelper()
+    {
+        return this.usesDefaultDrawingHelper;
+    }
+
+    public LLCore setUsesDefaultDrawingHelper(boolean usesDefaultDrawingHelper)
+    {
+        this.usesDefaultDrawingHelper = usesDefaultDrawingHelper;
         return this;
     }
 

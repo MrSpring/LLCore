@@ -13,24 +13,25 @@ import java.util.List;
 public class FileLoader implements IFileLoader
 {
     @Override
-    public File[] getFilesInFolder(File folder, boolean addSubFolders)
+    public File[] getFilesInFolder(File folder, boolean addSubFolders, FileFilter filter)
     {
         List<File> files = new ArrayList<File>();
-        this.addFilesToList(folder, files, addSubFolders);
+        this.addFilesToList(folder, files, addSubFolders, filter);
         return files.toArray(new File[files.size()]);
     }
 
     @Override
-    public void addFilesToList(File folder, List<File> fileList, boolean addSubFolders)
+    public void addFilesToList(File folder, List<File> fileList, boolean addSubFolders, FileFilter filter)
     {
         File[] subFiles = folder.listFiles();
         if (subFiles == null)
             return;
         for (File file : subFiles)
         {
-            fileList.add(file);
+            if (filter.accept(file))
+                fileList.add(file);
             if (file.isDirectory() && addSubFolders)
-                this.addFilesToList(file, fileList, true);
+                this.addFilesToList(file, fileList, true, filter);
         }
     }
 
