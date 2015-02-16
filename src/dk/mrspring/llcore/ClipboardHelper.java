@@ -1,4 +1,4 @@
-package dk.mrspring.fileexplorer.helper;
+package dk.mrspring.llcore;
 
 import dk.mrspring.llcore.api.IClipboardHelper;
 
