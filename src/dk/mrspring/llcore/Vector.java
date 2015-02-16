@@ -87,4 +87,14 @@ public class Vector
         this.y += y;
         return this;
     }
+
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
+    public void setAlpha(float alpha)
+    {
+        this.alpha = alpha;
+    }
 }
