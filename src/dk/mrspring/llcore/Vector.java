@@ -88,13 +88,15 @@ public class Vector
         return this;
     }
 
-    public void setColor(Color color)
+    public Vector setColor(Color color)
     {
         this.color = color;
+        return this;
     }
 
-    public void setAlpha(float alpha)
+    public Vector setAlpha(float alpha)
     {
         this.alpha = alpha;
+        return this;
     }
 }
