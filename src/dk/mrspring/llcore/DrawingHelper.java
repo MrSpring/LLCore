@@ -3,6 +3,7 @@ package dk.mrspring.llcore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -165,7 +166,10 @@ public class DrawingHelper
                 textY -= (lines.size() * 9) / 2;
             else if (horizontalAlignment == HorizontalTextAlignment.BOTTOM)
                 textY -= lines.size() * 9;
+            GL11.glPushMatrix();
+            GL11.glTranslated(0, 0, zIndex + 1);
             renderer.drawString(line, textX, textY, color, shadow);
+            GL11.glPopMatrix();
         }
         return lines.size();
     }
