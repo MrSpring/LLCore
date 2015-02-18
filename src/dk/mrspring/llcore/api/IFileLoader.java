@@ -19,4 +19,8 @@ public interface IFileLoader
     public boolean writeToFile(File file, String toWrite) throws IOException;
 
     public boolean deleteFile(File file) throws IOException;
+
+    public boolean copyFile(File original, File copy) throws IOException;
+
+    public boolean moveFile(File original, File newFile) throws IOException;
 }

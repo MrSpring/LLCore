@@ -64,4 +64,21 @@ public class FileLoader implements IFileLoader
         else return file.delete();
         return true;
     }
+
+    @Override
+    public boolean copyFile(File original, File copy) throws IOException
+    {
+        if (original.isDirectory())
+            FileUtils.copyDirectory(original, copy);
+        else FileUtils.copyFile(original, copy);
+        return true;
+    }
+
+    @Override
+    public boolean moveFile(File original, File newFile) throws IOException
+    {
+        this.copyFile(original, newFile);
+        this.deleteFile(original);
+        return true;
+    }
 }
