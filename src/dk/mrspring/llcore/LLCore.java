@@ -31,6 +31,7 @@ public class LLCore
         drawingHelper = new DrawingHelper();
         clipboardHelper = new ClipboardHelper();
         jsonHandler = new JsonHandler();
+        fileLoader = new FileLoader();
         loadIcon(new ResourceLocation("core", "arrow_up"));
         loadIcon(new ResourceLocation("core", "arrow_down"));
         loadIcon(new ResourceLocation("core", "arrow_left"));
