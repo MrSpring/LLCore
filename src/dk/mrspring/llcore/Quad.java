@@ -17,6 +17,11 @@ public class Quad extends Shape
         super(v1, v2, v3, v4);
     }
 
+    public Quad(float x1,float y1,float x2, float y2,float x3, float y3, float x4, float y4)
+    {
+        this(new Vector(x1,y1), new Vector(x2,y2), new Vector(x3,y3), new Vector(x4,y4));
+    }
+
     public Quad(float x, float y, float width, float height)
     {
         this(new Vector(x, y, 0, 0), new Vector(x + width, y, 512, 0), new Vector(x + width, y + height, 512, 512), new Vector(x, y + height, 0, 512));
