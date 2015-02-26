@@ -73,7 +73,7 @@ public class LLCore
         Icon icon = jsonHandler.loadFromJson(json, Icon.class);
         if (icon == null)
             icon = new Icon(1, 1, new Quad(0, 0, 1, 1));
-        loadedIcons.put(iconName, icon);
+        this.registerIcon(icon, iconName);
     }
 
     public DrawingHelper getDrawingHelper()
@@ -130,5 +130,10 @@ public class LLCore
     {
         this.jsonHandler = jsonHandler;
         return this;
+    }
+
+    public void registerIcon(Icon icon, String name)
+    {
+        loadedIcons.put(name, icon);
     }
 }
