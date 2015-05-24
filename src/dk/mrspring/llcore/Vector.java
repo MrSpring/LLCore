@@ -9,10 +9,10 @@ public class Vector
     float alpha;
     float x;
     float y;
-    int u;
-    int v;
+    float u;
+    float v;
 
-    public Vector(float x, float y, int u, int v, Color color, float alpha)
+    public Vector(float x, float y, float u, float v, Color color, float alpha)
     {
         this.x = x;
         this.y = y;
@@ -22,7 +22,7 @@ public class Vector
         this.alpha = alpha;
     }
 
-    public Vector(float x, float y, int u, int v)
+    public Vector(float x, float y, float u, float v)
     {
         this(x, y, u, v, Color.WHITE, 1F);
     }
@@ -47,12 +47,12 @@ public class Vector
         return y;
     }
 
-    public int getU()
+    public float getU()
     {
         return u;
     }
 
-    public int getV()
+    public float getV()
     {
         return v;
     }
@@ -69,13 +69,13 @@ public class Vector
         return this;
     }
 
-    public Vector setU(int u)
+    public Vector setU(float u)
     {
         this.u = u;
         return this;
     }
 
-    public Vector setV(int v)
+    public Vector setV(float v)
     {
         this.v = v;
         return this;
