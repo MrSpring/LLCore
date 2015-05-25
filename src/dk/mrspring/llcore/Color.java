@@ -29,4 +29,10 @@ public class Color
     {
         this((float) r / 255, (float) g / 255, (float) b / 255);
     }
+
+    public static Color morph(Color color1, Color color2, float ratio)
+    {
+        float r = color1.r + ((color2.r - color1.r) * ratio), g = color1.g + ((color2.g - color1.g) * ratio), b = color1.b + ((color2.b - color1.b) * ratio);
+        return new Color(r, g, b);
+    }
 }
