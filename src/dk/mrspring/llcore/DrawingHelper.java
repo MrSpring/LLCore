@@ -38,7 +38,7 @@ public class DrawingHelper
             this.drawShape(new Quad(x, quad.getVector(0).getY() + 1, 1, quad.getHeight() - 2).setColor(Color.BLACK).setAlpha(0.25F));
             this.drawShape(new Quad(x + w - 1, quad.getVector(0).getY() + 1, 1, quad.getHeight() - 2).setColor(Color.BLACK).setAlpha(0.25F));
 
-            if (w>2 && h > 2)
+            if (w > 2 && h > 2)
             {
                 this.drawShape(new Quad(x + 1, y + 1, w - 2, 1).setColor(Color.WHITE));
                 this.drawShape(new Quad(x + 1, y + 2, 1, h - 4).setColor(Color.WHITE));
@@ -153,10 +153,16 @@ public class DrawingHelper
 
     public int drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment)
     {
+        return this.drawText(text, placement, color, shadow, wrap, verticalAlignment, horizontalAlignment, 0);
+    }
+
+    public int drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment, int extraLineHeight)
+    {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int wrapLength = (wrap == -1) ? 100000 : wrap;
         float textX, textY;
         List<String> lines = renderer.listFormattedStringToWidth(text, wrapLength);
+        int ch = renderer.FONT_HEIGHT+extraLineHeight;
         for (int i = 0; i < lines.size(); i++)
         {
             String line = lines.get(i);
@@ -167,11 +173,11 @@ public class DrawingHelper
             else if (verticalAlignment == VerticalTextAlignment.RIGHT)
                 textX -= lineLength;
 
-            textY = placement.getY() + (i * 9);
+            textY = placement.getY() + (i * ch);
             if (horizontalAlignment == HorizontalTextAlignment.CENTER)
-                textY -= (lines.size() * 9) / 2;
+                textY -= (lines.size() * ch) / 2;
             else if (horizontalAlignment == HorizontalTextAlignment.BOTTOM)
-                textY -= lines.size() * 9;
+                textY -= lines.size() * ch;
             GL11.glPushMatrix();
             GL11.glTranslated(0, 0, zIndex + 1);
             renderer.drawString(line, textX, textY, color, shadow);
