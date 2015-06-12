@@ -17,9 +17,9 @@ public class Quad extends Shape
         super(v1, v2, v3, v4);
     }
 
-    public Quad(float x1,float y1,float x2, float y2,float x3, float y3, float x4, float y4)
+    public Quad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
     {
-        this(new Vector(x1,y1), new Vector(x2,y2), new Vector(x3,y3), new Vector(x4,y4));
+        this(new Vector(x1, y1), new Vector(x2, y2), new Vector(x3, y3), new Vector(x4, y4));
     }
 
     public Quad(float x, float y, float width, float height)
@@ -48,5 +48,15 @@ public class Quad extends Shape
     public float getHeight()
     {
         return getVector(3).getY() - getVector(0).getY();
+    }
+
+    public float getX()
+    {
+        return getVector(0).getX();
+    }
+
+    public float getY()
+    {
+        return getVector(0).getY();
     }
 }
