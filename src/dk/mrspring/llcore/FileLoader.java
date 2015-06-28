@@ -12,6 +12,15 @@ import java.util.List;
  */
 public class FileLoader implements IFileLoader
 {
+    public static FileFilter DEFAULT_FILTER=new FileFilter()
+    {
+        @Override
+        public boolean accept(File pathname)
+        {
+            return true;
+        }
+    };
+
     @Override
     public File[] getFilesInFolder(File folder, boolean addSubFolders, FileFilter filter)
     {

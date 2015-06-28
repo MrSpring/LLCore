@@ -186,6 +186,11 @@ public class DrawingHelper
         return lines.size();
     }
 
+    public double getZIndex()
+    {
+        return zIndex;
+    }
+
     public enum HorizontalTextAlignment
     {
         TOP,
