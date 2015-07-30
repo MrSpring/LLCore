@@ -151,22 +151,24 @@ public class DrawingHelper
         return this;
     }
 
-    public int drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment)
+    public TextRenderResult drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment)
     {
         return this.drawText(text, placement, color, shadow, wrap, verticalAlignment, horizontalAlignment, 0);
     }
 
-    public int drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment, int extraLineHeight)
+    public TextRenderResult drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment, int extraLineHeight)
     {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int wrapLength = (wrap == -1) ? 100000 : wrap;
         float textX, textY;
         List<String> lines = renderer.listFormattedStringToWidth(text, wrapLength);
-        int ch = renderer.FONT_HEIGHT+extraLineHeight;
+        int[] lengths = new int[lines.size()];
+        int ch = renderer.FONT_HEIGHT + extraLineHeight;
         for (int i = 0; i < lines.size(); i++)
         {
             String line = lines.get(i);
             int lineLength = renderer.getStringWidth(line);
+            lengths[i] = lineLength;
             textX = placement.getX();
             if (verticalAlignment == VerticalTextAlignment.CENTER)
                 textX -= (lineLength / 2);
@@ -183,7 +185,7 @@ public class DrawingHelper
             renderer.drawString(line, textX, textY, color, shadow);
             GL11.glPopMatrix();
         }
-        return lines.size();
+        return new TextRenderResult(lengths.length, lengths, verticalAlignment, horizontalAlignment, renderer, extraLineHeight);//lines.size();
     }
 
     public double getZIndex()
@@ -203,5 +205,41 @@ public class DrawingHelper
         LEFT,
         CENTER,
         RIGHT
+    }
+
+    public class TextRenderResult
+    {
+        public final int lines;
+        public final int[] lineLengths;
+        public final int lineHeight;
+        private int longestLine = -1;
+        private int totalHeight = -1;
+        public final VerticalTextAlignment vertical;
+        public final HorizontalTextAlignment horizontal;
+        public final FontRenderer renderer;
+
+        private TextRenderResult(int lineCount, int[] lineLengths, VerticalTextAlignment vertical,
+                                 HorizontalTextAlignment horizontal, FontRenderer renderer, int lineHeight)
+        {
+            this.lines = lineCount;
+            this.lineLengths = lineLengths;
+            this.vertical = vertical;
+            this.horizontal = horizontal;
+            this.renderer = renderer;
+            this.lineHeight = lineHeight;
+        }
+
+        public int getLongestLine()
+        {
+            if (longestLine == -1)
+                for (int length : this.lineLengths) longestLine = Math.max(longestLine, length);
+            return longestLine;
+        }
+
+        public int getTotalHeight()
+        {
+            if (totalHeight == -1) totalHeight = (renderer.FONT_HEIGHT + lineHeight) * lines;
+            return totalHeight;
+        }
     }
 }
