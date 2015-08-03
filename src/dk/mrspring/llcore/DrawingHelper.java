@@ -151,6 +151,46 @@ public class DrawingHelper
         return this;
     }
 
+    public TextRenderResult drawCenteredText(String text, Vector placement)
+    {
+        return this.drawCenteredText(text, placement, 0xFFFFFF);
+    }
+
+    public TextRenderResult drawCenteredText(String text, Vector placement, int color)
+    {
+        return this.drawCenteredText(text, placement, color, -1);
+    }
+
+    public TextRenderResult drawCenteredText(String text, Vector placement, int color, int wrap)
+    {
+        return this.drawCenteredText(text, placement, color, wrap, HorizontalTextAlignment.TOP);
+    }
+
+    public TextRenderResult drawCenteredText(String text, Vector placement, int color, int wrap, HorizontalTextAlignment horizontalAlignment)
+    {
+        return this.drawText(text, placement, color, wrap, VerticalTextAlignment.CENTER, horizontalAlignment);
+    }
+
+    public TextRenderResult drawText(String text, Vector placement)
+    {
+        return this.drawText(text, placement, 0xFFFFFF);
+    }
+
+    public TextRenderResult drawText(String text, Vector placement, int color)
+    {
+        return this.drawText(text, placement, color, -1);
+    }
+
+    public TextRenderResult drawText(String text, Vector placement, int color, int wrap)
+    {
+        return this.drawText(text, placement, color, wrap, VerticalTextAlignment.LEFT, HorizontalTextAlignment.TOP);
+    }
+
+    public TextRenderResult drawText(String text, Vector placement, int color, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment)
+    {
+        return this.drawText(text, placement, color, true, wrap, verticalAlignment, horizontalAlignment);
+    }
+
     public TextRenderResult drawText(String text, Vector placement, int color, boolean shadow, int wrap, VerticalTextAlignment verticalAlignment, HorizontalTextAlignment horizontalAlignment)
     {
         return this.drawText(text, placement, color, shadow, wrap, verticalAlignment, horizontalAlignment, 0);
