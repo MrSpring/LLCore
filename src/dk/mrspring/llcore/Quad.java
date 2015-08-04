@@ -36,7 +36,6 @@ public class Quad extends Shape
     public Shape setVectors(Vector[] vectors)
     {
         this.vectors = Arrays.copyOf(vectors, 4);
-        System.out.println(this.vectors.length);
         return this;
     }
 
@@ -58,5 +57,18 @@ public class Quad extends Shape
     public float getY()
     {
         return getVector(0).getY();
+    }
+
+    public Quad expand(float amount)
+    {
+        Vector v = getVector(0);
+        v.setX(v.getX() - amount).setY(v.getY() - amount);
+        v = getVector(1);
+        v.setX(v.getX() + amount).setY(v.getY() - amount);
+        v = getVector(2);
+        v.setX(v.getX() + amount).setY(v.getY() + amount);
+        v = getVector(3);
+        v.setX(v.getX() - amount).setY(v.getY() + amount);
+        return this;
     }
 }
