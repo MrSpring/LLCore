@@ -225,7 +225,7 @@ public class DrawingHelper
             renderer.drawString(line, textX, textY, color, shadow);
             GL11.glPopMatrix();
         }
-        return new TextRenderResult(lengths.length, lengths, verticalAlignment, horizontalAlignment, renderer, extraLineHeight);//lines.size();
+        return new TextRenderResult(lengths.length, lengths, verticalAlignment, horizontalAlignment, renderer, extraLineHeight, placement);//lines.size();
     }
 
     public double getZIndex()
@@ -254,12 +254,15 @@ public class DrawingHelper
         public final int lineHeight;
         private int longestLine = -1;
         private int totalHeight = -1;
+        private Quad asQuad = null;
         public final VerticalTextAlignment vertical;
         public final HorizontalTextAlignment horizontal;
         public final FontRenderer renderer;
+        public final Vector placement;
 
         private TextRenderResult(int lineCount, int[] lineLengths, VerticalTextAlignment vertical,
-                                 HorizontalTextAlignment horizontal, FontRenderer renderer, int lineHeight)
+                                 HorizontalTextAlignment horizontal, FontRenderer renderer, int lineHeight,
+                                 Vector placement)
         {
             this.lines = lineCount;
             this.lineLengths = lineLengths;
@@ -267,6 +270,7 @@ public class DrawingHelper
             this.horizontal = horizontal;
             this.renderer = renderer;
             this.lineHeight = lineHeight;
+            this.placement = placement;
         }
 
         public int getLongestLine()
@@ -280,6 +284,18 @@ public class DrawingHelper
         {
             if (totalHeight == -1) totalHeight = (renderer.FONT_HEIGHT + lineHeight) * lines;
             return totalHeight;
+        }
+
+        public Quad asQuad()
+        {
+            if (asQuad == null)
+            {
+                int width = getLongestLine(), height = getTotalHeight();
+                int xOffset = vertical == VerticalTextAlignment.LEFT ? 0 : (vertical == VerticalTextAlignment.CENTER ? width / 2 : width);
+                int yOffset = horizontal == HorizontalTextAlignment.TOP ? 0 : (horizontal == HorizontalTextAlignment.CENTER ? height / 2 : height);
+                asQuad = new Quad(-xOffset + placement.getX(), -yOffset + placement.getY(), width, height);
+            }
+            return asQuad;
         }
     }
 }
