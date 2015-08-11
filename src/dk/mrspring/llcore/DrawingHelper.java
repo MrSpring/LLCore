@@ -156,6 +156,11 @@ public class DrawingHelper
         return this.drawCenteredText(text, placement, 0xFFFFFF);
     }
 
+    public TextRenderResult drawCenteredText(String text, Vector placement, HorizontalTextAlignment horizontalTextAlignment)
+    {
+        return this.drawCenteredText(text, placement, 0xFFFFFF, -1, horizontalTextAlignment);
+    }
+
     public TextRenderResult drawCenteredText(String text, Vector placement, int color)
     {
         return this.drawCenteredText(text, placement, color, -1);
